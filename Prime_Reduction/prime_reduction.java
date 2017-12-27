@@ -8,13 +8,10 @@ import java.util.ArrayList;
 
 public class problem2
 {
-	public static int add_res;
-	public static int k;
+//	public static int add_res;
+//	public static int k;
 	public static void main (String args[])
 	{
-		
-		problem2.add_res = 0;
-		problem2.k = 0;
 		try
 		{
 			List<Integer> arr2 = new ArrayList<Integer>();
@@ -32,18 +29,32 @@ public class problem2
 				//int ret;
 				int[] arr = arr2.stream().mapToInt(i->i).toArray();
 				int n = arr[l];
-				int a;
-				a = primeLoop(n);
-				System.out.println(a);
+				int k2;
+				for(k2=1;k2>0;k2++)
+				{
+					if(primeCheck(n) == 0)
+					{
+						System.out.println(n+" "+k2);
+						break;
+					}
+					else
+					{
+						n = primeFactor(n);
+					}
+	//				System.out.println("Hello");
+				}
 			}
+	}
 			//System.out.println("\n");
-		}
+		
 		catch(IOException ioe)
 		{
 			//ioe.PrintStackTrace();
 			System.err.println("Input Read Error");
 		}
 	}
+// ##### Method to Check if the number is Prime or Not
+
 	public static int primeCheck(int a)
 	{
 		int mod, count = 0;
@@ -57,10 +68,12 @@ public class problem2
 		}
 		return count;
 	}
-	public static int primeFactor(int b, int add1)
+// ##### Method to get prime factors of the arg number
+
+	public static int primeFactor(int b)
 	{
-		int mod, count = 0, fact1=0;
-		List<Integer> num2 = new ArrayList<>();
+		int mod, fact1=0, add1=0;
+		//List<Integer> num2 = new ArrayList<>();
 		for(int i = 2;i<b;i++)
 		{
 			mod = b%i;
@@ -68,43 +81,14 @@ public class problem2
 			{
 				//System.out.print(i+" ");
 				add1 = add1 + i;
-				num2.add(i);
-				fact1 = b/i;
-				break;
+				//num2.add(i);
+				b = b/i;
+				i = 2;
+				if(primeCheck(b)==0)
+					add1 = add1 + b;
 				//return fact1;	
 			}	
 		}
-	//	return count;
-		return fact1;
-	}
-	public static int primeLoop(int n)
-	{
-		int p=0;
-		problem2.add_res = 0;
-		if(primeCheck(n) == 0)
-				System.out.println(n+" "+"1");
-			else
-				{
-					for(int j=2;j<n;j++)
-					{
-					//ret = primeFactor(n);
-						while(problem2.k == 0)
-						{
-							n = primeFactor(n, problem2.add_res);
-							if(primeCheck(n)==0)
-							{	
-								//System.out.println(n);
-								problem2.add_res = problem2.add_res + n;
-								problem2.k = problem2.k + 1;
-								problem2.add_res = primeLoop(problem2.add_res);
-							//num.add(primeFactor(n));
-							}
-						}
-				
-					}
-//				System.out.println("Hello");
-				
-				}
-		return problem2.add_res;
+		return add1;
 	}
 }

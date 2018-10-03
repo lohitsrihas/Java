@@ -38,18 +38,20 @@ public class test1
             tokens = next_token.split(" ");
             //tokens[1] = input.next();
 			//System.out.println(tokens[1]);
-            if(tokens[0] == "Operator" || tokens[0] == "operator")
+            
+            
+            if(next_token.contains("Operator") || next_token.contains("operator"))
             {
                 oprt_name.add(tokens[1]);
                 test1.oprt_index.add(count);
-                System.out.println("Loop 1");
+                //System.out.println("Loop 1");
                 //tokens = null;
             }
 			else if(tokens.length < 2 && tokens[0] != "Operator")
             {
                 //System.out.println(tokens[0]);
                 test1.user_num = Integer.valueOf(tokens[0]);
-                System.out.println("Loop 2");
+                //System.out.println("Loop 2");
                 break;
             }
             else if(tokens[0] != "Operator" && tokens.length > 1)
@@ -61,14 +63,14 @@ public class test1
                 //int temp_value = Integer.valueOf(tokens[1]);
                 //country_value.add(temp_value);
                 country_value.add(tokens[1]);
-                System.out.println("Loop 3");
+                //System.out.println("Loop 3");
             }
 		}
         // Conversion of String ArrayList to Integer ArrayList
-        for(String convert_val : oprt_name)
-        {
-            System.out.println(convert_val);
-        }
+       // for(String convert_val : oprt_name)
+        //{
+          //  System.out.println(convert_val);
+        //}
         
         for(String convert_val : country_code)
         {

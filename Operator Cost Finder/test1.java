@@ -4,82 +4,63 @@ import java.util.ArrayList;
 
 public class test1
 {
-    public static int user_num;
-    public static ArrayList<Integer> oprt_index = new ArrayList<Integer>();
-    public static ArrayList<Integer> country_code = new ArrayList<Integer>();
+    //Global variables declaration
+    
+    public static int user_num; //User phone number
+    public static ArrayList<Integer> oprt_index = new ArrayList<Integer>(); // Operator index to seperate each operator data i.e. for country code and its value
+    public static ArrayList<Integer> country_code = new ArrayList<Integer>(); // Country code of all the operators together
     public static void main(String[]args)
 	{
 		Scanner input = new Scanner(System.in);
 		String next_token = "";
         String[] tokens = new String[2];
-        int count = 0;
-        int index_ret;
-        int final_value;
-        int temp3;
+        int count = 0, index_ret, temp3;
+        double final_value;
         String final_operator = "";
         ArrayList<String> oprt_name = new ArrayList<String>();
-        ArrayList<Integer> country_value = new ArrayList<Integer>();
-        ArrayList<Integer> calc_ind = new ArrayList<Integer>();
-        ArrayList<Integer> final_ind = new ArrayList<Integer>();
-        ArrayList<Integer> calc_final = new ArrayList<Integer>();
+        ArrayList<Double> country_value = new ArrayList<Double>(); // Country code value of all the operators together
+        ArrayList<Integer> calc_ind = new ArrayList<Integer>(); // Index of the longest match operator
+        ArrayList<Integer> final_ind = new ArrayList<Integer>(); // Final index of the least value found for the given user number
+        ArrayList<Double> calc_final = new ArrayList<Double>(); // Stores final least value found at the end for the given user number
 
-        //Input Secion
+        //Input Secion to retreive operator data and user number
 
         while(input.hasNextLine())
 		{
-            
 			next_token = input.nextLine();
-            //tokens[0] = input.next();
             if(next_token.isEmpty())
-            {
-                break;
-            }
+            break;
             tokens = next_token.split(" ");
-            //tokens[1] = input.next();
-			//System.out.println(tokens[1]);
-            
-            
-            if(next_token.contains("Operator") || next_token.contains("operator"))
+            if(next_token.contains("Operator") || next_token.contains("operator")) // Operator name check
             {
                 oprt_name.add(tokens[1]);
                 test1.oprt_index.add(count);
                 country_code.add(0);
-                country_value.add(0);
+                country_value.add(0.0);
             }
-			else if(tokens.length < 2)
+			else if(tokens.length < 2) // Check for user number and start of analysis
             {
                 test1.user_num = Integer.valueOf(tokens[0]);
                 test1.oprt_index.add(count);
                 break;
             }
-            else
+            else // Storing country code and country code value
             {
                 test1.country_code.add(Integer.parseInt(tokens[0]));
-                country_value.add(Integer.parseInt(tokens[1]));
+                country_value.add(Double.parseDouble(tokens[1]));
             }
             count++;
 		}
         
-        for(int convert_val : oprt_index)
-        {
-            System.out.println("**"+convert_val);
-        }
-        for(int convert_val : country_value)
-        {
-            System.out.println("$$"+convert_val);
-        }
-        
-        //Filtering out the longest match and finding lowest cost
+        //Finding lowest cost for the entered user number
         
         for(int j=1;j<oprt_index.size();j++)
         {
             index_ret = test1.longest_match(j-1,j);
-            //System.out.println("##"+index_ret);
-            calc_ind.add(index_ret); //returned index for longest match in each operatoris stored in it
+            calc_ind.add(index_ret); //returned index for longest match in each operator is stored
         }
         for(int k=0;k<calc_ind.size();k++)
         {
-            System.out.println("Size of calc_index: "+calc_ind.size());
             int temp2 = calc_ind.get(k);
             if(temp2 != -1)
             {
@@ -88,12 +69,7 @@ public class test1
             }
         }
         final_value = Collections.min(calc_final);
-        for(int convert_val : calc_final)
-        {
-            System.out.println("**"+convert_val);
-        }
-        //temp3 = calc_final.indexOf(final_value);
-        //System.out.println("operator index: "+temp3);
+        
         for(int l=0;l<calc_final.size();l++)
         {
             if(final_value == calc_final.get(l))
@@ -102,7 +78,6 @@ public class test1
                 break;
             }
         }
-        //final_operator = oprt_name.get(temp3);
         System.out.println("Cheapest Operator: "+final_operator+" at a value of "+final_value);
 	}
     
@@ -110,40 +85,32 @@ public class test1
     
     public static int longest_match(int low, int high)
     {
-        //System.out.println("Function loop");
         int temp = test1.user_num;
         int remainder;
         int negative = -1;
         low = oprt_index.get(low) + 1;
         high = oprt_index.get(high);
-        //for(int i=1;i<)
         // Modulo function for number match
         while(temp > 0)
         {
             for(int k = low;k < high;k++)
             {
                 //negative = test1.int_code.indexOf(temp);
-                //System.out.println("Loopcheck: "+k+" high :"+high);
                 if(test1.country_code.get(k) == temp)
                 {
                     negative = k;
                 }
-                //System.out.println("Index of match :"+negative);
                 //indexOf returns the index of the number if it finds a match or else it returns -1
             }
             if(negative != -1)
             {
-                //System.out.println("Returned: "+negative);
                 return negative;
             }
             else
             {
-                //remainder = temp % 10;
                 temp = temp / 10;
             }
         }
-        //System.out.println("Outside Function Value :"+negative);
-        //System.out.println("Or Returned: "+negative);
         return negative;
     }
 }
